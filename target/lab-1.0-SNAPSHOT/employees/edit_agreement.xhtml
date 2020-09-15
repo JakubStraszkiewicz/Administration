@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:af="http://java.sun.com/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="agreement" value="#{editAgreement.agreement}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+            <o:validateMultiple id="myId" components="startDate endDate" validator="#{agreementDatesValidator}" message=""/>
+            <h:panelGrid styleClass="table table-striped" columns="3">
+                <h:outputLabel value="Data rozpoczęcia:" for="startDate"/>
+                <h:inputText styleClass="form-control" id="startDate" value="#{editAgreement.agreement.startDate}"
+                             converterMessage="Błędny format daty (yyyy-mm-dd)">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:messages for="startDate"/>
+
+                <h:outputLabel value="Data zakończenia:" for="endDate"/>
+                <h:inputText styleClass="form-control" id="endDate" value="#{editAgreement.agreement.endDate}"
+                             converterMessage="Błędny format daty (yyyy-mm-dd)">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:messages for="endDate"/>
+
+                <h:outputLabel value="Typ umowy:" for="agreementType"/>
+                <h:selectOneMenu id="agreementType" value="#{editAgreement.agreement.agreementType}">
+                    <af:forEach var="agreementTypes" items="#{enumValuesProvider.agreementTypes}">
+                        <f:selectItem itemValue="#{agreementTypes}" itemLabel="#{agreementTypes.toString()}"/>
+                    </af:forEach>
+                </h:selectOneMenu>
+                <h:messages for="agreementType"/>
+            </h:panelGrid>
+
+            <h:commandButton styleClass="btn btn-primary" value="Zapisz"
+                             action="#{editAgreement.saveAgreement()}">
+            </h:commandButton>
+            <h:button styleClass="btn btn-default ml-1" value="Powrót" outcome="list_agreements.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

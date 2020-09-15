@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+
+        <h:dataTable styleClass="table table-striped table-hover"
+                     value="#{listEmployees.employees}" var="employee">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{employee.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">PESEL</f:facet>
+                <h:outputText value="#{employee.pesel}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Imię i nazwisko</f:facet>
+                <h:outputText value="#{employee.name} #{employee.surname}"/>
+            </h:column>
+
+            <h:column>
+
+                <h:dataTable styleClass="table table-borderless" value="#{employee.agreements}" var="agreement">
+                    <h:column>
+                        <f:facet name="header">Typ Umowy</f:facet>
+                        <h:outputText value="#{agreement.agreementType.toString()}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Data rozpoczęcia</f:facet>
+                        <h:outputText value="#{agreement.startDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Data zakończenia</f:facet>
+                        <h:outputText value="#{agreement.endDate}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+
+            </h:column>
+
+            <h:column rendered="#{listEmployees.canEdit()}">
+                <h:button styleClass="btn btn-default" value="Edytuj" outcome="edit_employee.xhtml">
+                    <f:param name="employee" value="#{employee.id}"/>
+                </h:button>
+            </h:column>
+
+            <h:column rendered="#{listEmployees.canRemove()}">
+                <h:form>
+                    <h:commandButton styleClass="btn btn-danger" value="Usuń"
+                                     action="#{listEmployees.removeEmployee(employee)}"/>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:button rendered="#{listEmployees.canAdd()}"  styleClass="btn btn-primary" value="Nowy pracownik" outcome="edit_employee.xhtml"/>
+
+    </ui:define>
+</ui:composition>

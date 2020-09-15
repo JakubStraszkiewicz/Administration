@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/WEB-INF/templates/main.xhtml"
+                xmlns:p="http://www.w3.org/2001/XMLSchema-instance"
+                p:schemaLocation="http://primefaces.org/ui ">
+    <f:metadata>
+        <f:viewParam name="user" value="#{loginForm.user}"/>
+    </f:metadata>
+
+    <ui:define name="head">
+        <title>Logowanie</title>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Logowanie</h2>
+
+                        <h:form id="login-form" class="form-horizontal">
+                            <p:focus for="login"/>
+                            <h:panelGroup layout="block" styleClass="form-group"
+                                          rendered="#{not empty facesContext.getMessageList('login-form')}">
+                                <div class="col-sm-12">
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                        </button>
+                                        <h:message for="login-form"/>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <div class="form-group">
+                                <h:outputLabel for="login" value="Login" styleClass="col-sm-2 control-label"/>
+                                <div class="col-sm-10">
+                                    <h:inputText id="login" styleClass="form-control-col" value="#{loginForm.login}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="password" value="Hasło" styleClass="col-sm-2 control-label"/>
+                                <div class="col-sm-10">
+                                    <h:inputSecret id="password" styleClass="form-control-col" value="#{loginForm.password}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-1">
+                                    <h:commandButton action="#{loginForm.login()}" value="Zaloguj" styleClass="btn btn-default"/>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Rejestracja</h2>
+
+                        <h:form id="registry-form" class="form-horizontal">
+                            <p:focus for="registry"/>
+                            <h:panelGroup layout="block" styleClass="registry-form"
+                                          rendered="#{not empty facesContext.getMessageList('registry-form')}">
+                                <div class="col-sm-12">
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                        </button>
+                                        <h:message for="registry-form"/>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <div class="form-group">
+                                <h:outputLabel for="registryLogin" value="Login" styleClass="col-sm-2 control-label"/>
+                                <div class="col-sm-10">
+                                    <h:inputText id="registryLogin" styleClass="form-control-col" value="#{loginForm.user.login}" />
+                                    <h:messages for="registryLogin"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="registryPassword" value="Hasło" styleClass="col-sm-2 control-label"/>
+                                <div class="col-sm-10">
+                                    <h:inputSecret id="registryPassword" styleClass="form-control-col" value="#{loginForm.user.password}"/>
+                                    <h:messages for="registryPassword"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel for="repeatedRegistryPassword" value="Powtórz hasło" styleClass="col-sm-2 control-label"/>
+                                <div class="col-sm-10">
+                                    <h:inputSecret id="repeatedRegistryPassword" styleClass="form-control-col" value="#{loginForm.repeatedRegistryPassword}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-1">
+                                    <h:commandButton action="#{loginForm.registry()}" value="Zarejestruj" styleClass="btn btn-default"/>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </ui:define>
+
+</ui:composition>
+

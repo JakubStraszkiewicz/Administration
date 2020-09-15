@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="head">
+        <title>Odmowa dostępu</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="alert alert-danger" role="alert">
+            <h:outputText value="Użytkownik nie ma uprawnień do wykonania tej akcji"/>
+        </div>
+    </ui:define>
+
+</ui:composition>

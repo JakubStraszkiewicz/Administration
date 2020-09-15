@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="filterString" value="#{listRecentReleases.filterString}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <o:socket channel="incomeUpdates">
+            <f:ajax event="update" render="incomes"/>
+        </o:socket>
+
+        <p:dataTable id="incomes" value="#{listRecentReleases.incomes}" var="income">
+            <p:column style="width: 14%">
+                <f:facet name="header"><h:outputText value="ID"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('id',true)}"
+                                     update=":incomes" />
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('id',false)}"
+                                     update=":incomes" />
+
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="id" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+
+                </f:facet>
+                <h:outputText value="#{income.id}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header"><h:outputText value="Przychód"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('salary',true)}"
+                                     update=":incomes" />
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('salary',false)}"
+                                     update=":incomes" />
+
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="salary" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+                </f:facet>
+                <h:outputText value="#{income.salary}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header"><h:outputText value="Dieta"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('allowance',true)}"
+                                     update=":incomes" />
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('allowance',false)}"
+                                     update=":incomes" />
+
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="allowance" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+                </f:facet>
+                <h:outputText value="#{income.allowance}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header"><h:outputText value="Pracownik"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('surname',true)}"
+                                     update=":incomes" />
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('surname',false)}"
+                                     update=":incomes" />
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="surname" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+                </f:facet>
+                <h:outputText value="#{income.employee.surname} #{income.employee.name}"/>
+            </p:column>
+            <p:column style="width: 20%">
+                <f:facet name="header"><h:outputText value="Data wstawienia"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('creationDate',true)}"
+                                     update=":incomes"/>
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('creationDate',false)}"
+                                     update=":incomes"/>
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="creationDate" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+                </f:facet>
+                <h:outputText value="#{income.creationDate}">
+                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column style="width: 20%">
+                <f:facet name="header"><h:outputText value="Data modyfikacji"/>
+                    <p:commandButton value="^"
+                                     actionListener="#{listRecentReleases.sort('modificationDate',true)}"
+                                     update=":incomes"/>
+                    <p:commandButton value="v"
+                                     actionListener="#{listRecentReleases.sort('modificationDate',false)}"
+                                     update=":incomes"/>
+                    <h:form>
+                        <h:inputText styleClass="form-control-filter" id="modificationDate" valueChangeListener="#{listRecentReleases.filter}">
+                            <p:ajax event="change" update=":incomes" />
+                        </h:inputText>
+                    </h:form>
+                </f:facet>
+                <h:outputText value="#{income.modificationDate}">
+                    <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+</ui:composition>

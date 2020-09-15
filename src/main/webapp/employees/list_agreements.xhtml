@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:af="http://java.sun.com/jsp/jstl/core"
+                template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="content">
+
+        <h:dataTable styleClass="table table-striped table-hover"
+                     value="#{listAgreements.agreements}" var="agreement">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{agreement.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Typ Umowy
+                    <h:form>
+                        <h:selectOneMenu id="agreementType" value="#{editAgreement.agreement.agreementType}" onchange="submit()" valueChangeListener="#{listAgreements.getAgreementByType}">
+                            <f:selectItem itemValue="" itemLabel="Wszystkie" />
+                            <af:forEach var="agreementTypes" items="#{enumValuesProvider.agreementTypes}">
+                                <f:selectItem itemValue="#{agreementTypes}" itemLabel="#{agreementTypes.toString()}"/>
+                            </af:forEach>
+                        </h:selectOneMenu>
+                    </h:form>
+                </f:facet>
+
+                <h:outputText value="#{agreement.agreementType.toString()}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Data rozpoczęcia</f:facet>
+                <h:outputText value="#{agreement.startDate}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:outputText>
+                <h:message for="agreement">Błędny format daty</h:message>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Data zakończenia</f:facet>
+                <h:outputText value="#{agreement.endDate}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:outputText>
+            </h:column>
+
+            <h:column rendered="#{listAgreements.canEdit()}">
+                <h:button styleClass="btn btn-default" value="Edytuj" outcome="edit_agreement.xhtml">
+                    <f:param name="agreement" value="#{agreement.id}"/>
+                </h:button>
+            </h:column>
+
+            <h:column rendered="#{listAgreements.canRemove()}">
+                <h:form>
+                    <h:commandButton styleClass="btn btn-danger" value="Usuń"
+                                     action="#{listAgreements.removeAgreement(agreement)}"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+
+        <h:button rendered="#{listAgreements.canAdd()}" styleClass="btn btn-primary" value="Nowa umowa" outcome="edit_agreement.xhtml"/>
+
+    </ui:define>
+</ui:composition>

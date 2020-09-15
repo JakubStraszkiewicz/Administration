@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Java EE"/>
+    <meta name="author" content="WK"/>
+    <!--<link rel="icon" href="../../favicon.ico"/>-->
+
+    <title>Java EE</title>
+
+    <!-- Bootstrap core CSS -->
+    <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+
+    <!-- Custom styles for this template -->
+    <h:outputStylesheet library="css" name="dashboard.css"/>
+    <h:outputStylesheet library="css" name="styles.css"/>
+
+    <h:outputScript library="js" name="jquery-1.11.3.js"/>
+    <h:outputScript library="js" name="bootstrap.min.js"/>
+    <h:outputScript library="js" name="nav.js"/>
+</h:head>
+
+<h:body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <h:graphicImage library="img" name="java.png" styleClass="pull-left"/>
+                    Java EE
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav visible-xs">
+                    <li><h:link outcome="/employees/list_employees.xhtml" value="Pracownicy"/></li>
+                </ul>
+
+                <h:panelGroup layout="block" styleClass="navbar-right" rendered="#{not authContext.authenticated}">
+                    <h:panelGroup layout="block" styleClass="navbar-text">
+                        <h:link outcome="/auth/login_form.xhtml" value="Logowanie" styleClass="navbar-link"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <h:panelGroup layout="block" class="navbar-right" rendered="#{authContext.authenticated}">
+                    <ul>
+                        <li class="dropdown">
+                            <h:panelGroup layout="block" styleClass="navbar-text">
+                                <h:outputText value="Zalogowano jako: #{authContext.userLogin}"/>
+                            </h:panelGroup>
+                            <a href="#" class="dropdown-toggle navbar-text" data-toggle="dropdown" >Menu</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <h:panelGroup layout="block" rendered="#{authContext.authenticated}">
+                                        <h:panelGroup layout="block">
+                                            <h:link outcome="/employees/change_password.xhtml" value="Zmiana hasła"/>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </li>
+                                <li>
+                                    <h:form rendered="#{authContext.authenticated}">
+                                        <h:panelGroup layout="block">
+                                            <h:commandLink action="#{main.logout()}" value="Wyloguj" style="color: black" styleClass="navbar-text"/>
+                                        </h:panelGroup>
+                                    </h:form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </h:panelGroup>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 col-xs-12 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li>
+
+                        <h:link rendered="#{main.userLogged}" outcome="/employees/list_employees.xhtml">
+                            <h:outputText value="Pracownicy"/>
+                        </h:link>
+                    </li>
+                    <li>
+
+                        <h:link rendered="#{main.userLogged}" outcome="/employees/list_agreements.xhtml">
+                            <h:outputText value="Umowy"/>
+                        </h:link>
+                    </li>
+                    <li>
+
+                        <h:link rendered="#{main.userLogged}" outcome="/employees/list_incomes.xhtml">
+                            <h:outputText value="Przychody"/>
+                        </h:link>
+                    </li>
+                    <li>
+
+                        <h:link rendered="#{main.userAdministration}" outcome="/admin/list_users.xhtml">
+                            <h:outputText value="Użytkownicy"/>
+                        </h:link>
+                    </li>
+                    <li>
+
+                        <h:link rendered="#{main.userLogged}" outcome="/employees/list_recent_releases.xhtml">
+                            <h:outputText value="Najnowsze przychody"/>
+                        </h:link>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+                <ui:insert name="content"/>
+
+            </div>
+        </div>
+    </div>
+
+</h:body>
+</html>

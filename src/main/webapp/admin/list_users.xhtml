@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main.xhtml">
+
+    <ui:define name="content">
+        <h:dataTable styleClass="table table-striped table-hover" value="#{listUsers.users}" var="user">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                <h:outputText value="#{user.id}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Login</f:facet>
+                <h:outputText value="#{user.login}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Role</f:facet>
+                <ui:repeat value="#{user.roles}" var="role">
+                    <h:outputText value="#{role} "/>
+                </ui:repeat>
+            </h:column>
+
+            <h:column>
+                <h:button styleClass="btn btn-default" value="Edytuj" outcome="edit_user.xhtml">
+                    <f:param name="user" value="#{user.id}"/>
+                </h:button>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+
+</ui:composition>

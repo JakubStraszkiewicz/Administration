@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:of="http://omnifaces.org/functions"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="employee" value="#{editEmployee.employee}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid styleClass="table table-striped" columns="3">
+                <h:outputLabel value="Imię:" for="name"/>
+                <h:inputText styleClass="form-control" id="name" value="#{editEmployee.employee.name}"/>
+                <h:messages for="name"/>
+
+                <h:outputLabel value="Nazwisko:" for="surname"/>
+                <h:inputText styleClass="form-control" id="surname" value="#{editEmployee.employee.surname}"/>
+                <h:messages for="surname"/>
+
+                <h:outputLabel value="PESEL:" for="pesel"/>
+                <h:inputText styleClass="form-control" id="pesel" value="#{editEmployee.employee.pesel}"/>
+                <h:messages for="pesel"/>
+
+                <h:outputLabel value="Umowy:" for="agreements"/>
+                <h:selectManyListbox styleClass="form-control" id="agreements" collectionType="java.util.ArrayList"
+                                     value="#{editEmployee.employee.agreements}">
+                    <f:selectItems value="#{editEmployee.availableAgreements}" var="agreement" itemValue="#{agreement}"
+                                   itemLabel="#{agreement.agreementType.toString()}
+                                   #{of:formatDate(agreement.startDate, 'dd.MM.yyyy')}
+                                   #{of:formatDate(agreement.endDate, 'dd.MM.yyyy')} "/>
+                </h:selectManyListbox>
+                <h:messages for="agreements"/>
+            </h:panelGrid>
+
+            <h:commandButton styleClass="btn btn-primary" value="Zapisz"
+                             action="#{editEmployee.saveEmployee()}"/>
+            <h:button styleClass="btn btn-default ml-1" value="Powrót" outcome="list_employees.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="user" value="#{editUser.user}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form id="changeRole">
+            <h:panelGroup layout="block" styleClass="form-group"
+                          rendered="#{not empty facesContext.getMessageList('changeRole')}">
+                <div class="col-sm-12">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">
+                        </button>
+                        <h:message for="changeRole"/>
+                    </div>
+                </div>
+            </h:panelGroup>
+            <h:panelGrid styleClass="table table-striped" columns="2">
+                <h:outputLabel value="ID:" for="id"/>
+                <h:outputText styleClass="form-control" id="id" value="#{editUser.user.id}"/>
+
+                <h:outputLabel value="Login:" for="login"/>
+                <h:outputText styleClass="form-control" id="login" value="#{editUser.user.login}"/>
+
+                <h:outputLabel value="Role:" for="roles"/>
+                <h:selectManyListbox styleClass="form-control" id="roles"
+                                 value="#{editUser.user.roles}"  collectionType="java.util.ArrayList">
+                    <f:selectItems value="#{editUser.findAvailableRoles()}" var="role" itemValue="#{role}"
+                                   itemLabel="#{role}"/>
+                </h:selectManyListbox>
+                <h:messages for="roles"/>
+            </h:panelGrid>
+
+            <h:commandButton styleClass="btn btn-primary" value="Zapisz"
+                             action="#{editUser.saveUser()}"/>
+            <h:button styleClass="btn btn-default ml-1" value="Powrót" outcome="/admin/list_users.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

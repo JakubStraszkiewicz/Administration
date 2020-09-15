@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="income" value="#{editIncome.income}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid styleClass="table table-striped" columns="3">
+                <h:outputLabel value="Pensja:" for="salary"/>
+                <h:inputText styleClass="form-control" id="salary" value="#{editIncome.income.salary}">
+                    <f:convertNumber integerOnly="true"/>
+                </h:inputText>
+                <h:messages for="salary"/>
+
+                <h:outputLabel value="Dieta:" for="allowance"/>
+                <h:inputText styleClass="form-control" id="allowance" value="#{editIncome.income.allowance}">
+                    <f:convertNumber integerOnly="true"/>
+                </h:inputText>
+                <h:messages for="allowance"/>
+
+                <h:outputLabel value="Data uzyskania przychodu (RRRR-MM-DD):" for="settlementDate"/>
+                <h:inputText styleClass="form-control" id="settlementDate" value="#{editIncome.income.settlementDate}"  converterMessage="Błędny format daty">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:inputText>
+                <h:messages for="settlementDate"/>
+
+                <h:outputLabel value="Pracownicy:" for="employees"/>
+                <h:selectOneMenu styleClass="form-control" id="employees"
+                                     value="#{editIncome.income.employee}">
+                    <f:selectItems value="#{editIncome.availableEmployees}" var="employee" itemValue="#{employee}"
+                                   itemLabel="#{employee.name} #{employee.surname}"/>
+                </h:selectOneMenu>
+                <h:messages for="employees"/>
+            </h:panelGrid>
+
+            <h:commandButton styleClass="btn btn-primary" value="Zapisz"
+                             action="#{editIncome.saveIncome()}"/>
+            <h:button styleClass="btn btn-default ml-1" value="Powrót" outcome="list_incomes.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
